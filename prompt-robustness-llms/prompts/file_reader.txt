@@ -1,9 +1,0 @@
-Prompt 3: File Reader
-Baseline:
-“Write a Python function to read a text file and print each line one by one.”
-Ambiguous:
-“Can you get the contents of a file and print it line by line?”
-Negated:
-“Write code to read from a file but do not use Python’s open() function.”
-Contradictory:
-“Read a file using the open() method without using it directly.”

@@ -1,9 +1,0 @@
-Unit Testing a Function
-Baseline:
-“Write Python unit tests using unittest for a function that calculates factorial of a number.”
-Ambiguous:
-“Test a Python function that does math on a number.”
-Negated:
-“Test the factorial function but don’t use the unittest module.”
-Contradictory:
-“Write unit tests using unittest but avoid using assertions.”
