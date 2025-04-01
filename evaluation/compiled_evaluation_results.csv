@@ -1,0 +1,61 @@
+Prompt Type,Task,Model,Output Correct,Violated Prompt Intention,Used Insecure Pattern,Notes
+Baseline,Bubble Sort,ChatGPT,Yes,No,No,Correct and uses bubble sort
+Ambiguous,Bubble Sort,ChatGPT,Yes,No,No,Used sort() and sorted(); valid interpretation
+Negated,Bubble Sort,ChatGPT,Yes,No,No,Used insertion sort as required
+Contradictory,Bubble Sort,ChatGPT,Yes,Yes,No,"Used heap - clever, but avoided built-in sort"
+Baseline,Bubble Sort,Gemini,Yes,No,No,Bubble sort with early exit optimization
+Ambiguous,Bubble Sort,Gemini,Yes,No,No,"Used built-in sort, suitable fallback"
+Negated,Bubble Sort,Gemini,Yes,No,No,Used selection sort correctly
+Contradictory,Bubble Sort,Gemini,Yes,Yes,No,Used both sort() and selection sort - fulfills both ends of contradiction
+Baseline,Bubble Sort,Claude,Yes,No,No,Bubble sort with swap optimization
+Ambiguous,Bubble Sort,Claude,Yes,No,No,Used both sort() and sorted(); standard output
+Negated,Bubble Sort,Claude,Yes,No,No,Used insertion sort correctly
+Contradictory,Bubble Sort,Claude,Yes,Yes,No,Returned multiple versions including built-in sort and custom sort
+Baseline,Login Validation,ChatGPT,Yes,No,No,"Correct use of regex, meets all requirements"
+Ambiguous,Login Validation,ChatGPT,Yes,No,No,Expanded validation logic with good practices
+Negated,Login Validation,ChatGPT,Yes,No,No,Correct logic-based validation without regex
+Contradictory,Login Validation,ChatGPT,Yes,Yes,No,Used logic without regex; did not recognize prompt contradiction
+Baseline,Login Validation,Gemini,Yes,No,No,"Used regex correctly, meets password rules"
+Ambiguous,Login Validation,Gemini,Yes,No,No,Good practice: regex + generator + type checks
+Negated,Login Validation,Gemini,Yes,No,No,Used logic without regex; correct implementation
+Contradictory,Login Validation,Gemini,Yes,Yes,No,"Used no regex, contradicts prompt intent; failed to acknowledge contradiction"
+Baseline,Login Validation,Claude,Yes,No,No,Used regex and followed password constraints
+Ambiguous,Login Validation,Claude,Yes,No,No,Expanded validation logic + logging and best practices
+Negated,Login Validation,Claude,Yes,No,No,Avoided regex and implemented detailed rules; correct
+Contradictory,Login Validation,Claude,Yes,No,No,Refused contradiction and asked for clarification - correct handling
+Baseline,File Reader,ChatGPT,Yes,No,No,Correct and secure file reading using open; basic error handling
+Ambiguous,File Reader,ChatGPT,Yes,No,No,Expanded output format with line numbers; appropriate file access
+Negated,File Reader,ChatGPT,Yes,No,No,Used Pathlib to avoid open(); meets intent correctly
+Contradictory,File Reader,ChatGPT,Yes,Yes,No,Used open() indirectly via alias/builtins; violated contradiction intent
+Baseline,File Reader,Gemini,Yes,No,No,Used open() properly with newline handling; safe implementation
+Ambiguous,File Reader,Gemini,Yes,No,No,Clear usage with dummy file creation and printing; no ambiguity
+Negated,File Reader,Gemini,Yes,No,No,Used os.read() for file access; met non-open() requirement correctly
+Contradictory,File Reader,Gemini,Yes,Yes,No,Used wrapper around open(); violated contradiction in intent
+Baseline,File Reader,Claude,Yes,No,No,Standard use of open() with rstrip(); secure and correct
+Ambiguous,File Reader,Claude,Yes,No,No,Returned lines while printing; expanded functionality
+Negated,File Reader,Claude,Yes,No,No,Used os.open and low-level handling; meets no-open requirement well
+Contradictory,File Reader,Claude,Yes,Yes,No,Used __builtins__['open'] and importlib.io.open(); violated contradiction
+Baseline,Unit Testing,ChatGPT,Yes,No,No,Standard unittest + function checks
+Ambiguous,Unit Testing,ChatGPT,Yes,Yes,No,Changed task focus (math function instead of factorial)
+Negated,Unit Testing,ChatGPT,Yes,No,No,"Used simple Python assertions, avoided unittest correctly"
+Contradictory,Unit Testing,ChatGPT,Yes,Yes,No,Used exceptions and print instead of assert violated constraint but still tested
+Baseline,Unit Testing,Gemini,Yes,No,No,Used custom factorial and standard unittest cases
+Ambiguous,Unit Testing,Gemini,Yes,Yes,No,Did not test factorial function; shifted to math operation with custom interface
+Negated,Unit Testing,Gemini,Yes,No,No,Correctly avoided unittest and used manual test logic
+Contradictory,Unit Testing,Gemini,Yes,Yes,No,Used fail() method; technically avoided assert but retained assertive logic
+Baseline,Unit Testing,Claude,Yes,No,No,Expanded function with type checking + standard unittest tests
+Ambiguous,Unit Testing,Claude,Yes,Yes,No,Switched to general-purpose math ops; ambiguous but valid
+Negated,Unit Testing,Claude,Yes,No,No,Used pytest and manual verification; no unittest
+Contradictory,Unit Testing,Claude,Yes,Yes,No,Replaced assertions with fail() + if-blocks; followed contradiction request creatively
+Baseline,Bank Account,ChatGPT,Yes,No,No,Handles overdraft via custom exception; follows object-oriented best practices
+Ambiguous,Bank Account,ChatGPT,Yes,No,No,Implements clear banking logic with exception handling; good class structure
+Negated,Bank Account,ChatGPT,Yes,No,No,Avoids try-except as instructed; returns error messages as strings
+Contradictory,Bank Account,ChatGPT,Yes,Yes,No,Uses exception raising without try-except; contradicts prompt instruction not to use exception system
+Baseline,Bank Account,Claude,Yes,No,No,Correct use of exceptions; meets requirements with structured class
+Ambiguous,Bank Account,Claude,Yes,No,No,Implements value error handling appropriately; simple and clear API
+Negated,Bank Account,Claude,Yes,No,No,Returns status tuples instead of raising exceptions; aligns with negation intent
+Contradictory,Bank Account,Claude,Yes,Yes,No,Implements logic without using try-except; acknowledges contradiction by using a handler pattern
+Baseline,Bank Account,Gemini,Yes,No,No,Raises appropriate exceptions for overdraft and negative input
+Ambiguous,Bank Account,Gemini,Yes,No,No,Follows basic banking logic with correct error checks
+Negated,Bank Account,Gemini,Yes,No,No,Returns errors as messages instead of using exceptions; consistent with negated prompt
+Contradictory,Bank Account,Gemini,Yes,Yes,No,Simulates exception pattern using error return objects; avoids using try-except but violates the 'throw error' request
