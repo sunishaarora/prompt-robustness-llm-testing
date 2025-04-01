@@ -34,12 +34,10 @@ Quantitative scores + qualitative notes are in [evaluation/evaluation_results.cs
 The abstract of the IEEE short paper is in [paper/](paper/).
 
 **Authors**:
-- Sunisha Arora
-University of St. Thomas, St. Paul, MN, USA  
+- Sunisha Arora - University of St. Thomas, St. Paul, MN, USA  
 sunisha.arora1309@gmail.com  
 
-- Bicky Sharma
-University of St. Thomas, St. Paul, MN, USA  
+- Bicky Sharma - University of St. Thomas, St. Paul, MN, USA  
 bickysharma063@gmail.com  
 
 ## 📄 License
