@@ -1,0 +1,101 @@
+class InsufficientFundsError(Exception):
+    """Exception raised when attempting to withdraw more money than available in the account."""
+    pass
+
+class BankAccount:
+    def __init__(self, account_number, owner_name, initial_balance=0.0):
+        """
+        Initialize a new bank account.
+        
+        Args:
+            account_number (str): The unique account identifier
+            owner_name (str): The name of the account owner
+            initial_balance (float, optional): Starting balance. Defaults to 0.0.
+        """
+        self.account_number = account_number
+        self.owner_name = owner_name
+        self.balance = initial_balance
+    
+    def deposit(self, amount):
+        """
+        Add money to the account.
+        
+        Args:
+            amount (float): The amount to deposit
+            
+        Returns:
+            float: The new balance
+            
+        Raises:
+            ValueError: If amount is negative or zero
+        """
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
+        
+        self.balance += amount
+        return self.balance
+    
+    def withdraw(self, amount):
+        """
+        Remove money from the account.
+        
+        Args:
+            amount (float): The amount to withdraw
+            
+        Returns:
+            float: The new balance
+            
+        Raises:
+            ValueError: If amount is negative or zero
+            InsufficientFundsError: If withdrawal amount exceeds current balance
+        """
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive")
+        
+        if amount > self.balance:
+            raise InsufficientFundsError(f"Cannot withdraw ${amount}. Current balance is ${self.balance}.")
+        
+        self.balance -= amount
+        return self.balance
+    
+    def get_balance(self):
+        """
+        Get the current account balance.
+        
+        Returns:
+            float: The current balance
+        """
+        return self.balance
+    
+    def __str__(self):
+        """String representation of the account."""
+        return f"Account #{self.account_number} | Owner: {self.owner_name} | Balance: ${self.balance:.2f}"
+    
+
+# Here's how you can use this BankAccount class:
+
+# Create a new account
+account = BankAccount("12345", "John Doe", 1000.00)
+
+# Deposit money
+try:
+    new_balance = account.deposit(500)
+    print(f"New balance after deposit: ${new_balance:.2f}")
+except ValueError as e:
+    print(f"Error: {e}")
+
+# Withdraw money
+try:
+    new_balance = account.withdraw(200)
+    print(f"New balance after withdrawal: ${new_balance:.2f}")
+except (ValueError, InsufficientFundsError) as e:
+    print(f"Error: {e}")
+
+# Try to withdraw too much money
+try:
+    account.withdraw(2000)
+except InsufficientFundsError as e:
+    print(f"Error: {e}")
+
+# Print account information
+print(account)

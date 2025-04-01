@@ -1,0 +1,9 @@
+Prompt 1: Simple Algorithm – Bubble Sort
+Baseline:
+“Write a Python function to perform bubble sort on a list of integers.”
+Ambiguous:
+“Sort this list in the usual way using Python. Make sure it's a basic sort method.”
+Negated:
+“Write a Python function that does not use built-in sort or sorted but still sorts the list.”
+Contradictory:
+“Sort this list using Python's built-in sort and without using sort at the same time.”

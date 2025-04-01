@@ -1,0 +1,9 @@
+import heapq
+
+def sort_with_heapq(arr):
+    heapq.heapify(arr)             # Turn the list into a min-heap
+    return [heapq.heappop(arr) for _ in range(len(arr))]  # Pop elements in sorted order
+
+numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = sort_with_heapq(numbers.copy())  # use copy if you want to keep original
+print("Sorted list:", sorted_numbers)

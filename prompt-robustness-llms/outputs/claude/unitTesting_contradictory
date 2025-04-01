@@ -1,0 +1,111 @@
+import unittest
+import sys
+from math import factorial as math_factorial
+
+# Assuming you have a factorial function defined like this:
+def factorial(n):
+    """
+    Calculate the factorial of a number.
+    
+    Args:
+        n (int): A non-negative integer
+        
+    Returns:
+        int: The factorial of n
+        
+    Raises:
+        ValueError: If n is negative
+        TypeError: If n is not an integer
+    """
+    if not isinstance(n, int):
+        raise TypeError("Input must be an integer")
+    if n < 0:
+        raise ValueError("Input must be non-negative")
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+
+class TestFactorial(unittest.TestCase):
+    
+    def test_zero(self):
+        """Test factorial of 0"""
+        result = factorial(0)
+        expected = 1
+        if result != expected:
+            self.fail(f"factorial(0) returned {result} instead of {expected}")
+    
+    def test_one(self):
+        """Test factorial of 1"""
+        result = factorial(1)
+        expected = 1
+        if result != expected:
+            self.fail(f"factorial(1) returned {result} instead of {expected}")
+    
+    def test_positive_integers(self):
+        """Test factorial of various positive integers"""
+        test_cases = [
+            (2, 2),
+            (3, 6),
+            (5, 120),
+            (10, 3628800)
+        ]
+        
+        for input_val, expected in test_cases:
+            result = factorial(input_val)
+            if result != expected:
+                self.fail(f"factorial({input_val}) returned {result} instead of {expected}")
+    
+    def test_large_number(self):
+        """Test factorial of a larger number against math.factorial"""
+        input_val = 20
+        result = factorial(input_val)
+        expected = math_factorial(input_val)
+        if result != expected:
+            self.fail(f"factorial({input_val}) returned {result} instead of {expected}")
+    
+    def test_negative_input(self):
+        """Test that negative inputs raise ValueError"""
+        try:
+            factorial(-1)
+            self.fail("factorial(-1) did not raise ValueError")
+        except ValueError:
+            pass  # This is the expected behavior
+            
+        try:
+            factorial(-5)
+            self.fail("factorial(-5) did not raise ValueError")
+        except ValueError:
+            pass  # This is the expected behavior
+    
+    def test_non_integer_input(self):
+        """Test that non-integer inputs raise TypeError"""
+        test_cases = [5.5, "5", [5]]
+        
+        for input_val in test_cases:
+            try:
+                factorial(input_val)
+                self.fail(f"factorial({input_val}) did not raise TypeError")
+            except TypeError:
+                pass  # This is the expected behavior
+
+
+# Custom test runner that doesn't use assertions
+class CustomTextTestRunner(unittest.TextTestRunner):
+    def run(self, test):
+        result = super().run(test)
+        if result.wasSuccessful():
+            print("All tests passed successfully!")
+        else:
+            print(f"Failed tests: {len(result.failures)}")
+        return result
+
+
+if __name__ == "__main__":
+    # Create a test suite
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestFactorial)
+    
+    # Run the tests with our custom runner
+    runner = CustomTextTestRunner(verbosity=2)
+    runner.run(suite)

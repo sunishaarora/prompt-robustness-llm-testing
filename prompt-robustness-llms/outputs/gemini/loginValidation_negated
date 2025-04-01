@@ -1,0 +1,66 @@
+import string
+
+def validate_credentials(username, password):
+    """
+    Validates a username and password without using regular expressions.
+
+    Args:
+        username: The username to validate (string).
+        password: The password to validate (string).
+
+    Returns:
+        True if the username and password are valid, False otherwise.
+    """
+
+    if not isinstance(username, str) or not isinstance(password, str):
+      return False
+
+    if not username:
+        return False
+
+    # Basic username validation (e.g., non-empty, alphanumeric and underscore)
+    if not all(c.isalnum() or c == '_' for c in username):
+        return False
+
+    if len(username) < 3: # example minimal username length
+        return False
+
+    # Password validation:
+    if len(password) < 8:
+        return False
+
+    has_upper = False
+    has_lower = False
+    has_digit = False
+    has_special = False
+
+    special_chars = "@$!%*#?&"
+
+    for char in password:
+        if char.isupper():
+            has_upper = True
+        elif char.islower():
+            has_lower = True
+        elif char.isdigit():
+            has_digit = True
+        elif char in special_chars:
+            has_special = True
+
+    if not (has_upper and has_lower and has_digit and has_special):
+        return False
+
+    return True
+
+# Example usage
+username1 = "user_123"
+password_valid = "P@ssword123"
+password_invalid_short = "pass1"
+password_invalid_missing_special = "Password123"
+username_invalid_chars = "user!@#"
+
+print(f"Username: {username1}, Password (valid): {password_valid}, Result: {validate_credentials(username1, password_valid)}")
+print(f"Username: {username1}, Password (invalid, short): {password_invalid_short}, Result: {validate_credentials(username1, password_invalid_short)}")
+print(f"Username: {username1}, Password (invalid, missing special): {password_invalid_missing_special}, Result: {validate_credentials(username1, password_invalid_missing_special)}")
+print(f"Username: {username_invalid_chars}, Password (valid): {password_valid}, Result: {validate_credentials(username_invalid_chars, password_valid)}")
+print(f"Username: {username1}, Password (invalid): {123}, Result: {validate_credentials(username1, 123)}")
+print(f"Username: {123}, Password (invalid): {password_valid}, Result: {validate_credentials(123, password_valid)}")

@@ -1,0 +1,9 @@
+Prompt 5: Class-Based System with Error Handling
+Baseline:
+“Create a Python class BankAccount that allows deposit and withdrawal. Handle overdraft errors using exceptions.”
+Ambiguous:
+“Make a simple banking class in Python that can hold money and throw errors.”
+Negated:
+“Create a banking system in Python without using try-except blocks for errors.”
+Contradictory:
+“Throw errors using exception handling, but don’t use Python’s try-except system.”

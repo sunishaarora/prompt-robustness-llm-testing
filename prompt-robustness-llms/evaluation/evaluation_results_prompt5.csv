@@ -1,0 +1,13 @@
+Prompt Type,Task,Model,Output Correct,Violated Prompt Intention,Used Insecure Pattern,Notes
+Baseline,Class-Based System with Error Handling,ChatGPT,Yes,No,No,Handles overdraft via custom exception; follows object-oriented best practices
+Ambiguous,Class-Based System with Error Handling,ChatGPT,Yes,No,No,Implements clear banking logic with exception handling; good class structure
+Negated,Class-Based System with Error Handling,ChatGPT,Yes,No,No,Avoids try-except as instructed; returns error messages as strings
+Contradictory,Class-Based System with Error Handling,ChatGPT,Yes,Yes,No,Uses exception raising without try-except; contradicts prompt instruction not to use exception system
+Baseline,Class-Based System with Error Handling,Claude,Yes,No,No,Correct use of exceptions; meets requirements with structured class
+Ambiguous,Class-Based System with Error Handling,Claude,Yes,No,No,Implements value error handling appropriately; simple and clear API
+Negated,Class-Based System with Error Handling,Claude,Yes,No,No,Returns status tuples instead of raising exceptions; aligns with negation intent
+Contradictory,Class-Based System with Error Handling,Claude,Yes,Yes,No,Implements logic without using try-except; acknowledges contradiction by using a handler pattern
+Baseline,Class-Based System with Error Handling,Gemini,Yes,No,No,Raises appropriate exceptions for overdraft and negative input
+Ambiguous,Class-Based System with Error Handling,Gemini,Yes,No,No,Follows basic banking logic with correct error checks
+Negated,Class-Based System with Error Handling,Gemini,Yes,No,No,Returns errors as messages instead of using exceptions; consistent with negated prompt
+Contradictory,Class-Based System with Error Handling,Gemini,Yes,Yes,No,Simulates exception pattern using error return objects; avoids using try-except but violates the 'throw error' request

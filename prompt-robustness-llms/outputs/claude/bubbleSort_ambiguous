@@ -1,0 +1,20 @@
+# Using the sort() method (modifies the original list)
+def basic_sort(arr):
+    arr.sort()
+    return arr
+
+# Example usage
+numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = basic_sort(numbers)
+print(sorted_numbers)  # Output: [11, 12, 22, 25, 34, 64, 90]
+
+# ALTERNATIVE
+
+# Using the sorted() function (creates a new sorted list)
+def basic_sort_alternative(arr):
+    return sorted(arr)
+
+# Example usage
+numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = basic_sort_alternative(numbers)
+print(sorted_numbers)  # Output: [11, 12, 22, 25, 34, 64, 90]

@@ -1,0 +1,114 @@
+import unittest
+import math
+
+# Assuming you have a math function defined like this:
+def perform_math(number, operation='square'):
+    """
+    Performs various mathematical operations on a number.
+    
+    Args:
+        number (int/float): The number to operate on
+        operation (str): The operation to perform. Options are:
+                        'square' - returns number²
+                        'sqrt' - returns √number
+                        'double' - returns number×2
+                        'halve' - returns number÷2
+                        'cube' - returns number³
+                        'negate' - returns -number
+    
+    Returns:
+        int/float: The result of the operation
+        
+    Raises:
+        ValueError: If operation is invalid or if number is negative for sqrt
+        TypeError: If number is not a numeric type
+    """
+    if not isinstance(number, (int, float)):
+        raise TypeError("Input must be a number")
+        
+    if operation == 'square':
+        return number ** 2
+    elif operation == 'sqrt':
+        if number < 0:
+            raise ValueError("Cannot calculate square root of negative number")
+        return math.sqrt(number)
+    elif operation == 'double':
+        return number * 2
+    elif operation == 'halve':
+        return number / 2
+    elif operation == 'cube':
+        return number ** 3
+    elif operation == 'negate':
+        return -number
+    else:
+        raise ValueError(f"Unknown operation: {operation}")
+
+
+class TestMathFunction(unittest.TestCase):
+    
+    def test_square(self):
+        """Test squaring various numbers"""
+        self.assertEqual(perform_math(2), 4)
+        self.assertEqual(perform_math(3, 'square'), 9)
+        self.assertEqual(perform_math(-4, 'square'), 16)
+        self.assertEqual(perform_math(0, 'square'), 0)
+        self.assertEqual(perform_math(1.5, 'square'), 2.25)
+    
+    def test_sqrt(self):
+        """Test square root operation"""
+        self.assertEqual(perform_math(4, 'sqrt'), 2)
+        self.assertEqual(perform_math(9, 'sqrt'), 3)
+        self.assertEqual(perform_math(2, 'sqrt'), math.sqrt(2))
+        self.assertAlmostEqual(perform_math(0.25, 'sqrt'), 0.5)
+    
+    def test_double(self):
+        """Test doubling numbers"""
+        self.assertEqual(perform_math(5, 'double'), 10)
+        self.assertEqual(perform_math(-3, 'double'), -6)
+        self.assertEqual(perform_math(0, 'double'), 0)
+        self.assertEqual(perform_math(2.5, 'double'), 5.0)
+    
+    def test_halve(self):
+        """Test halving numbers"""
+        self.assertEqual(perform_math(10, 'halve'), 5)
+        self.assertEqual(perform_math(-6, 'halve'), -3)
+        self.assertEqual(perform_math(0, 'halve'), 0)
+        self.assertEqual(perform_math(3, 'halve'), 1.5)
+    
+    def test_cube(self):
+        """Test cubing numbers"""
+        self.assertEqual(perform_math(2, 'cube'), 8)
+        self.assertEqual(perform_math(-2, 'cube'), -8)
+        self.assertEqual(perform_math(0, 'cube'), 0)
+        self.assertEqual(perform_math(0.5, 'cube'), 0.125)
+    
+    def test_negate(self):
+        """Test negating numbers"""
+        self.assertEqual(perform_math(5, 'negate'), -5)
+        self.assertEqual(perform_math(-3, 'negate'), 3)
+        self.assertEqual(perform_math(0, 'negate'), 0)
+    
+    def test_default_operation(self):
+        """Test that default operation is 'square'"""
+        self.assertEqual(perform_math(3), perform_math(3, 'square'))
+    
+    def test_invalid_operation(self):
+        """Test that invalid operations raise ValueError"""
+        with self.assertRaises(ValueError):
+            perform_math(5, 'invalid_op')
+    
+    def test_negative_sqrt(self):
+        """Test that sqrt of negative numbers raises ValueError"""
+        with self.assertRaises(ValueError):
+            perform_math(-4, 'sqrt')
+    
+    def test_non_numeric_input(self):
+        """Test that non-numeric inputs raise TypeError"""
+        with self.assertRaises(TypeError):
+            perform_math("5")
+        with self.assertRaises(TypeError):
+            perform_math([5])
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,37 @@
+def selection_sort(arr):
+  """
+  Sorts a list in ascending order using the selection sort algorithm.
+
+  Args:
+    arr: A list of comparable elements.
+
+  Returns:
+    A new list containing the sorted elements.
+  """
+  n = len(arr)
+  arr_copy = arr[:]  # Create a copy to avoid modifying the original list
+
+  for i in range(n):
+    # Find the minimum element in the unsorted part of the list
+    min_index = i
+    for j in range(i + 1, n):
+      if arr_copy[j] < arr_copy[min_index]:
+        min_index = j
+
+    # Swap the minimum element with the first element of the unsorted part
+    arr_copy[i], arr_copy[min_index] = arr_copy[min_index], arr_copy[i]
+
+  return arr_copy
+
+# Example Usage
+my_list = [64, 25, 12, 22, 11]
+sorted_list = selection_sort(my_list)
+print("Sorted array:", sorted_list) #output: Sorted array: [11, 12, 22, 25, 64]
+
+my_list2 = [1,2,3,4,5]
+sorted_list2 = selection_sort(my_list2)
+print("Sorted array:", sorted_list2) #output: Sorted array: [1, 2, 3, 4, 5]
+
+my_list3 = [5,4,3,2,1]
+sorted_list3 = selection_sort(my_list3)
+print("Sorted array:", sorted_list3) #output: Sorted array: [1, 2, 3, 4, 5]

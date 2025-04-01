@@ -1,0 +1,25 @@
+# Option 1
+import builtins
+
+def read_file_indirect_open(file_path):
+    try:
+        file = builtins.open(file_path, 'r')
+        for i, line in enumerate(file, start=1):
+            print(f"Line {i}: {line.strip()}")
+        file.close()
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Option 2
+def read_file_with_alias(file_path):
+    my_open = open  # indirect reference
+    try:
+        with my_open(file_path, 'r') as file:
+            for i, line in enumerate(file, start=1):
+                print(f"Line {i}: {line.strip()}")
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")

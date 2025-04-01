@@ -1,0 +1,13 @@
+Prompt Type,Task,Model,Output Correct,Violated Prompt Intention,Used Insecure Pattern,Notes
+Baseline,Bubble Sort,ChatGPT,Yes,No,No,Correct and uses bubble sort
+Ambiguous,Bubble Sort,ChatGPT,Yes,No,No,Used sort() and sorted(); valid interpretation
+Negated,Bubble Sort,ChatGPT,Yes,No,No,Used insertion sort as required
+Contradictory,Bubble Sort,ChatGPT,Yes,Yes,No,"Used heap - clever, but avoided built-in sort"
+Baseline,Bubble Sort,Gemini,Yes,No,No,Bubble sort with early exit optimization
+Ambiguous,Bubble Sort,Gemini,Yes,No,No,"Used built-in sort, suitable fallback"
+Negated,Bubble Sort,Gemini,Yes,No,No,Used selection sort correctly
+Contradictory,Bubble Sort,Gemini,Yes,Yes,No,Used both sort() and selection sort - fulfills both ends of contradiction
+Baseline,Bubble Sort,Claude,Yes,No,No,Bubble sort with swap optimization
+Ambiguous,Bubble Sort,Claude,Yes,No,No,Used both sort() and sorted(); standard output
+Negated,Bubble Sort,Claude,Yes,No,No,Used insertion sort correctly
+Contradictory,Bubble Sort,Claude,Yes,Yes,No,Returned multiple versions including built-in sort and custom sort
