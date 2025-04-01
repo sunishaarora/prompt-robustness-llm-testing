@@ -1,0 +1,99 @@
+import pytest
+from math import factorial as math_factorial
+
+# Assuming you have a factorial function defined like this:
+def factorial(n):
+    """
+    Calculate the factorial of a number.
+    
+    Args:
+        n (int): A non-negative integer
+        
+    Returns:
+        int: The factorial of n
+        
+    Raises:
+        ValueError: If n is negative
+        TypeError: If n is not an integer
+    """
+    if not isinstance(n, int):
+        raise TypeError("Input must be an integer")
+    if n < 0:
+        raise ValueError("Input must be non-negative")
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+
+# Basic test cases
+def test_basic_cases():
+    assert factorial(0) == 1
+    assert factorial(1) == 1
+    
+
+def test_positive_integers():
+    assert factorial(2) == 2
+    assert factorial(3) == 6
+    assert factorial(5) == 120
+    assert factorial(10) == 3628800
+
+
+def test_against_math_factorial():
+    # Compare against math.factorial for larger numbers
+    assert factorial(15) == math_factorial(15)
+    assert factorial(20) == math_factorial(20)
+
+
+def test_negative_input():
+    # Ensure ValueError is raised for negative inputs
+    with pytest.raises(ValueError):
+        factorial(-1)
+    
+    with pytest.raises(ValueError):
+        factorial(-5)
+
+
+def test_non_integer_input():
+    # Ensure TypeError is raised for non-integer inputs
+    with pytest.raises(TypeError):
+        factorial(5.5)
+    
+    with pytest.raises(TypeError):
+        factorial("5")
+    
+    with pytest.raises(TypeError):
+        factorial([5])
+
+
+# Simple manual test function
+def run_manual_tests():
+    print("Running manual tests for factorial function")
+    
+    # Test basic cases
+    print(f"factorial(0) = {factorial(0)}, expected: 1")
+    print(f"factorial(1) = {factorial(1)}, expected: 1")
+    print(f"factorial(5) = {factorial(5)}, expected: 120")
+    
+    # Test error cases
+    try:
+        factorial(-1)
+        print("ERROR: factorial(-1) should raise ValueError")
+    except ValueError:
+        print("PASS: factorial(-1) correctly raised ValueError")
+    
+    try:
+        factorial(3.5)
+        print("ERROR: factorial(3.5) should raise TypeError")
+    except TypeError:
+        print("PASS: factorial(3.5) correctly raised TypeError")
+    
+    print("Manual tests completed")
+
+
+if __name__ == "__main__":
+    # If you want to run the tests manually without pytest
+    run_manual_tests()
+    
+    # To run with pytest, use:
+    # pytest -xvs this_file.py

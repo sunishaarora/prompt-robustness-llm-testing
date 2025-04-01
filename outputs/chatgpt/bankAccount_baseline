@@ -1,0 +1,44 @@
+class OverdraftError(Exception):
+    """Exception raised when attempting to withdraw more than the balance."""
+    def __init__(self, message="Insufficient funds for withdrawal."):
+        self.message = message
+        super().__init__(self.message)
+
+
+class BankAccount:
+    def __init__(self, owner, balance=0.0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive.")
+        self.balance += amount
+        print(f"Deposited ${amount:.2f}. New balance: ${self.balance:.2f}")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive.")
+        if amount > self.balance:
+            raise OverdraftError(f"Cannot withdraw ${amount:.2f}; available balance is ${self.balance:.2f}")
+        self.balance -= amount
+        print(f"Withdrew ${amount:.2f}. New balance: ${self.balance:.2f}")
+
+    def __str__(self):
+        return f"BankAccount(owner={self.owner}, balance=${self.balance:.2f})"
+
+
+# Example usage
+if __name__ == "__main__":
+    account = BankAccount("Alice", 100.0)
+    print(account)
+
+    account.deposit(50.0)
+
+    try:
+        account.withdraw(200.0)
+    except OverdraftError as e:
+        print(f"OverdraftError: {e}")
+
+    account.withdraw(100.0)
+    print(account)

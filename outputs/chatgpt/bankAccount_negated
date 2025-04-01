@@ -1,0 +1,31 @@
+class SimpleBank:
+    def __init__(self, initial_balance=0):
+        self.balance = initial_balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            return "Deposit amount must be greater than zero."
+        self.balance += amount
+        return f"Deposited ${amount}. Balance: ${self.balance}"
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            return "Withdrawal amount must be greater than zero."
+        if amount > self.balance:
+            return "Not enough balance."
+        self.balance -= amount
+        return f"Withdrew ${amount}. Balance: ${self.balance}"
+
+    def get_balance(self):
+        return self.balance
+
+
+# Example usage
+if __name__ == "__main__":
+    bank = SimpleBank(100)
+
+    print(bank.deposit(50))         # Deposited $50. Balance: $150
+    print(bank.withdraw(200))       # Not enough balance.
+    print(bank.withdraw(-20))       # Withdrawal amount must be greater than zero.
+    print(bank.withdraw(100))       # Withdrew $100. Balance: $50
+    print("Final balance:", bank.get_balance())

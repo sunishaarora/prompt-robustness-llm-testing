@@ -1,0 +1,9 @@
+numbers = [64, 34, 25, 12, 22, 11, 90]
+numbers.sort()
+print("Sorted list:", numbers)
+
+#Alternative
+
+numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = sorted(numbers)
+print("Sorted list:", sorted_numbers)

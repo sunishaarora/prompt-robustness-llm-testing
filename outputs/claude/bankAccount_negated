@@ -1,0 +1,187 @@
+class BankAccount:
+    """A simple bank account class that handles transactions without exceptions."""
+    
+    def __init__(self, account_number, owner_name, initial_balance=0.0):
+        """Initialize a new bank account with the given details."""
+        self.account_number = account_number
+        self.owner_name = owner_name
+        self._balance = initial_balance
+        self.transaction_history = []
+    
+    @property
+    def balance(self):
+        """Get the current account balance."""
+        return self._balance
+    
+    def deposit(self, amount):
+        """
+        Deposit money into the account.
+        
+        Args:
+            amount (float): The amount to deposit
+            
+        Returns:
+            tuple: (success_flag, message, new_balance)
+        """
+        if amount <= 0:
+            return (False, "Deposit amount must be positive", self._balance)
+        
+        self._balance += amount
+        self.transaction_history.append(f"Deposit: +${amount:.2f}")
+        return (True, f"Successfully deposited ${amount:.2f}", self._balance)
+    
+    def withdraw(self, amount):
+        """
+        Withdraw money from the account.
+        
+        Args:
+            amount (float): The amount to withdraw
+            
+        Returns:
+            tuple: (success_flag, message, new_balance)
+        """
+        if amount <= 0:
+            return (False, "Withdrawal amount must be positive", self._balance)
+        
+        if amount > self._balance:
+            return (False, f"Insufficient funds: Cannot withdraw ${amount:.2f} from balance of ${self._balance:.2f}", self._balance)
+        
+        self._balance -= amount
+        self.transaction_history.append(f"Withdrawal: -${amount:.2f}")
+        return (True, f"Successfully withdrew ${amount:.2f}", self._balance)
+    
+    def get_transaction_history(self):
+        """Return the account's transaction history."""
+        return self.transaction_history
+    
+    def __str__(self):
+        """Return a string representation of the account."""
+        return f"Account #{self.account_number} | Owner: {self.owner_name} | Balance: ${self._balance:.2f}"
+
+
+class Bank:
+    """A bank that manages multiple accounts."""
+    
+    def __init__(self, name):
+        """Initialize a new bank with the given name."""
+        self.name = name
+        self.accounts = {}
+        self.next_account_number = 1001
+    
+    def create_account(self, owner_name, initial_balance=0.0):
+        """
+        Create a new account at the bank.
+        
+        Args:
+            owner_name (str): Name of the account owner
+            initial_balance (float, optional): Initial deposit amount
+            
+        Returns:
+            tuple: (success_flag, message, account_object or None)
+        """
+        if initial_balance < 0:
+            return (False, "Initial balance cannot be negative", None)
+        
+        account_number = str(self.next_account_number)
+        self.next_account_number += 1
+        
+        new_account = BankAccount(account_number, owner_name, initial_balance)
+        self.accounts[account_number] = new_account
+        
+        return (True, f"Account created successfully with number: {account_number}", new_account)
+    
+    def get_account(self, account_number):
+        """
+        Retrieve an account by its number.
+        
+        Args:
+            account_number (str): The account number to look up
+            
+        Returns:
+            tuple: (success_flag, message, account_object or None)
+        """
+        if account_number not in self.accounts:
+            return (False, f"Account #{account_number} not found", None)
+        
+        return (True, "Account found", self.accounts[account_number])
+    
+    def transfer(self, from_account_number, to_account_number, amount):
+        """
+        Transfer money between accounts.
+        
+        Args:
+            from_account_number (str): Source account number
+            to_account_number (str): Destination account number
+            amount (float): Amount to transfer
+            
+        Returns:
+            tuple: (success_flag, message)
+        """
+        # Check if accounts exist
+        from_result = self.get_account(from_account_number)
+        if not from_result[0]:
+            return (False, f"Source {from_result[1]}")
+        
+        to_result = self.get_account(to_account_number)
+        if not to_result[0]:
+            return (False, f"Destination {to_result[1]}")
+        
+        # Get account objects
+        from_account = from_result[2]
+        to_account = to_result[2]
+        
+        # Withdraw from source account
+        withdraw_result = from_account.withdraw(amount)
+        if not withdraw_result[0]:
+            return (False, f"Transfer failed: {withdraw_result[1]}")
+        
+        # Deposit to destination account
+        deposit_result = to_account.deposit(amount)
+        if not deposit_result[0]:
+            # This should never happen with a positive amount, but rollback the withdrawal just in case
+            from_account.deposit(amount)
+            return (False, f"Transfer failed: {deposit_result[1]}")
+        
+        from_account.transaction_history.append(f"Transfer to #{to_account_number}: -${amount:.2f}")
+        to_account.transaction_history.append(f"Transfer from #{from_account_number}: +${amount:.2f}")
+        
+        return (True, f"Successfully transferred ${amount:.2f} from account #{from_account_number} to account #{to_account_number}")
+    
+    def list_accounts(self):
+        """Return a list of all accounts at the bank."""
+        return list(self.accounts.values())
+
+# Here's how you can use this banking system:
+
+# Create a new bank
+my_bank = Bank("Community Bank")
+
+# Create some accounts
+success, message, john_account = my_bank.create_account("John Doe", 1000.00)
+print(message)  # Output: Account created successfully with number: 1001
+
+success, message, jane_account = my_bank.create_account("Jane Smith", 500.00)
+print(message)  # Output: Account created successfully with number: 1002
+
+# Make deposits and withdrawals
+success, message, balance = john_account.deposit(250.00)
+print(message)  # Output: Successfully deposited $250.00
+
+success, message, balance = jane_account.withdraw(100.00)
+print(message)  # Output: Successfully withdrew $100.00
+
+# Handle failed operations without exceptions
+success, message, balance = jane_account.withdraw(1000.00)
+print(message)  # Output: Insufficient funds: Cannot withdraw $1000.00 from balance of $400.00
+
+# Transfer between accounts
+success, message = my_bank.transfer("1001", "1002", 300.00)
+print(message)  # Output: Successfully transferred $300.00 from account #1001 to account #1002
+
+# Print account information
+print(john_account)  # Output: Account #1001 | Owner: John Doe | Balance: $950.00
+print(jane_account)  # Output: Account #1002 | Owner: Jane Smith | Balance: $700.00
+
+# Get transaction history
+print(john_account.get_transaction_history())
+# Output: ['Deposit: +$250.00', 'Transfer to #1002: -$300.00']

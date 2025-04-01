@@ -1,0 +1,39 @@
+class InsufficientFundsError(Exception):
+    """Raised when trying to withdraw more than the balance."""
+    pass
+
+
+class SimpleBank:
+    def __init__(self, initial_balance=0):
+        self.balance = initial_balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit amount must be greater than zero.")
+        self.balance += amount
+        print(f"Deposited ${amount}. Balance: ${self.balance}")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be greater than zero.")
+        if amount > self.balance:
+            raise InsufficientFundsError("Not enough balance.")
+        self.balance -= amount
+        print(f"Withdrew ${amount}. Balance: ${self.balance}")
+
+    def get_balance(self):
+        return self.balance
+
+
+# Example usage:
+if __name__ == "__main__":
+    bank = SimpleBank(100)
+
+    bank.deposit(50)
+    
+    try:
+        bank.withdraw(200)
+    except InsufficientFundsError as e:
+        print("Error:", e)
+
+    print("Final balance:", bank.get_balance())

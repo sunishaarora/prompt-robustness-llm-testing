@@ -1,0 +1,9 @@
+Prompt 2: Login Validation
+Baseline:
+“Write a Python function to validate a username and password. Use regex to ensure password is at least 8 characters, contains a number and a special character.”
+Ambiguous:
+“Check if username and password are valid using Python. Use good practice.”
+Negated:
+“Write a function that validates credentials but doesn’t use regex.”
+Contradictory:
+“Validate the password using regex but avoid using regex in the implementation.”

@@ -1,0 +1,13 @@
+from pathlib import Path
+
+def read_file_without_open(file_path):
+    try:
+        content = Path(file_path).read_text()
+        for i, line in enumerate(content.splitlines(), start=1):
+            print(f"Line {i}: {line}")
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+read_file_without_open('example.txt')

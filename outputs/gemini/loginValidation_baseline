@@ -1,0 +1,38 @@
+import re
+
+def validate_credentials(username, password):
+    """
+    Validates a username and password.
+
+    Args:
+        username: The username to validate (string).
+        password: The password to validate (string).
+
+    Returns:
+        True if the username and password are valid, False otherwise.
+    """
+
+    if not isinstance(username, str) or not isinstance(password, str):
+      return False
+
+    # Basic username validation (e.g., non-empty)
+    if not username:
+        return False
+
+    # Password validation using regex
+    password_regex = r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+
+    if re.match(password_regex, password):
+        return True
+    else:
+        return False
+
+# Example usage
+username1 = "user123"
+password_valid = "P@ssword123"
+password_invalid = "pass1"
+
+print(f"Username: {username1}, Password (valid): {password_valid}, Result: {validate_credentials(username1, password_valid)}")
+print(f"Username: {username1}, Password (invalid): {password_invalid}, Result: {validate_credentials(username1, password_invalid)}")
+print(f"Username: {username1}, Password (invalid): {123}, Result: {validate_credentials(username1, 123)}")
+print(f"Username: {123}, Password (invalid): {password_valid}, Result: {validate_credentials(123, password_valid)}")

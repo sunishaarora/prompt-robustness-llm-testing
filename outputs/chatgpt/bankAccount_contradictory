@@ -1,0 +1,45 @@
+class InsufficientFundsError(Exception):
+    """Custom exception for when an account has insufficient funds."""
+    pass
+
+
+class BankAccount:
+    def __init__(self, owner, balance=0.0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit amount must be greater than zero.")
+        self.balance += amount
+        print(f"Deposited ${amount:.2f}. New balance: ${self.balance:.2f}")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be greater than zero.")
+        if amount > self.balance:
+            raise InsufficientFundsError(
+                f"Cannot withdraw ${amount:.2f}; available balance is ${self.balance:.2f}"
+            )
+        self.balance -= amount
+        print(f"Withdrew ${amount:.2f}. New balance: ${self.balance:.2f}")
+
+    def __str__(self):
+        return f"BankAccount(owner='{self.owner}', balance=${self.balance:.2f})"
+
+
+# Example usage without using try-except blocks to catch errors.
+if __name__ == "__main__":
+    account = BankAccount("Alice", 100.0)
+    print(account)
+
+    # Depositing money works as expected.
+    account.deposit(50.0)
+    print(account)
+
+    # This withdrawal will raise an InsufficientFundsError because the amount exceeds the balance.
+    # Since there is no try-except block, the program will terminate here.
+    account.withdraw(200.0)
+
+    # This line will not be reached if an error occurs above.
+    print(account)

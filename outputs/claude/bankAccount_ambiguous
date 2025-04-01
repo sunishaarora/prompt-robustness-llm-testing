@@ -1,0 +1,102 @@
+class BankAccount:
+    """A simple bank account class that manages balance and throws errors for invalid operations."""
+    
+    def __init__(self, owner_name, initial_balance=0):
+        """
+        Initialize a new bank account.
+        
+        Args:
+            owner_name (str): The name of the account owner
+            initial_balance (float, optional): Starting balance. Defaults to 0.
+        
+        Raises:
+            ValueError: If initial_balance is negative
+        """
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative")
+            
+        self.owner = owner_name
+        self.balance = initial_balance
+    
+    def deposit(self, amount):
+        """
+        Deposit money into the account.
+        
+        Args:
+            amount (float): The amount to deposit
+            
+        Raises:
+            ValueError: If amount is not positive
+            
+        Returns:
+            float: The new balance
+        """
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
+            
+        self.balance += amount
+        return self.balance
+    
+    def withdraw(self, amount):
+        """
+        Withdraw money from the account.
+        
+        Args:
+            amount (float): The amount to withdraw
+            
+        Raises:
+            ValueError: If amount is not positive
+            ValueError: If amount exceeds current balance
+            
+        Returns:
+            float: The new balance
+        """
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive")
+            
+        if amount > self.balance:
+            raise ValueError(f"Insufficient funds: balance is {self.balance}, but tried to withdraw {amount}")
+            
+        self.balance -= amount
+        return self.balance
+    
+    def get_balance(self):
+        """
+        Get the current balance.
+        
+        Returns:
+            float: The current balance
+        """
+        return self.balance
+        
+    def __str__(self):
+        """Return a string representation of the account"""
+        return f"{self.owner}'s account - Balance: ${self.balance:.2f}"
+    
+# Here's how you can use this simple banking class:
+# Create a new account
+try:
+    account = BankAccount("Alice", 100)
+    print(account)  # Output: Alice's account - Balance: $100.00
+    
+    # Deposit money
+    account.deposit(50)
+    print(f"Balance after deposit: ${account.get_balance():.2f}")  # Output: Balance after deposit: $150.00
+    
+    # Withdraw money
+    account.withdraw(30)
+    print(f"Balance after withdrawal: ${account.get_balance():.2f}")  # Output: Balance after withdrawal: $120.00
+    
+    # Try invalid operations
+    try:
+        account.deposit(-10)  # Will raise ValueError
+    except ValueError as e:
+        print(f"Error: {e}")  # Output: Error: Deposit amount must be positive
+        
+    try:
+        account.withdraw(200)  # Will raise ValueError for insufficient funds
+    except ValueError as e:
+        print(f"Error: {e}")  # Output: Error: Insufficient funds: balance is 120, but tried to withdraw 200
+        
+except ValueError as e:
+    print(f"Account creation failed: {e}")
